@@ -18,7 +18,9 @@ MFEPlatform/
     │       ├── components/    AppList, RegisterApp, HomeComponent
     │       ├── models/        RegisteredApp interface
     │       └── services/      AppsService (HTTP client)
-    └── remote-app/            Angular 21 MFE (port 4201) [in progress]
+    └── remote-app/            Angular 21 MFE (port 4201)
+        └── src/app/
+            └── remote-component/  RemoteModule + RemoteComponent
 ```
 
 ## Tech Stack
@@ -35,10 +37,10 @@ MFEPlatform/
 ## Progress
 
 ### Phase 1 — Backend (Complete)
-- `GET /api/app` — list all registered MFEs
-- `GET /api/app/{id}` — get by ID
-- `POST /api/app` — register new MFE (409 on duplicate name/routePrefix)
-- `DELETE /api/app/{id}` — delete
+- `GET /api/apps` — list all registered MFEs
+- `GET /api/apps/{id}` — get by ID
+- `POST /api/apps` — register new MFE (409 on duplicate name/routePrefix)
+- `DELETE /api/apps/{id}` — delete
 - Auth0 JWT Bearer validation on all endpoints
 - SQLite DB with EF Core, auto-migrates on startup
 - CORS configured for `http://localhost:4200`
@@ -47,16 +49,17 @@ MFEPlatform/
 ### Phase 2 — Angular Shell (Complete)
 - Auth0 login/logout via PKCE flow
 - `AuthGuard` on protected routes
-- `AppListComponent` — fetches registered apps, wires dynamic MFE routes
+- `AppListComponent` — fetches registered apps, wires dynamic MFE routes, supports delete
 - `RegisterAppComponent` — reactive form to POST new MFE
 - `HomeComponent` — landing page, auto-redirects to `/apps` when authenticated
 - `AuthHttpInterceptor` auto-attaches Bearer token to all API requests
 - Dynamic routing via `loadRemoteModule()` + `router.resetConfig()`
 
-### Phase 3 — Remote App (In Progress)
-- Angular 21 app scaffolded at `Frontend/remote-app/`
-- Native Federation remote config pending
-- `RemoteModule` to be exposed at `./Module`
+### Phase 3 — Remote App (Complete)
+- Angular 21 app at `Frontend/remote-app/` served on port 4201
+- Native Federation configured via `federation.config.js`
+- `RemoteModule` exposed at `./Module`, renders "Hello from Remote App!"
+- Shell dynamically loads remote at `/remote-app` via `loadRemoteModule()`
 
 ## Getting Started
 
@@ -89,17 +92,20 @@ ng serve --port 4200
 ```
 Opens at `http://localhost:4200`
 
-### 4. Remote App (Phase 3)
+### 4. Remote App
 ```bash
 cd Frontend/remote-app
 npm install
 ng serve --port 4201
 ```
+Runs at `http://localhost:4201`
 
 ## Registering a Remote App
 
+Get a bearer token from DevTools (Application → Local Storage → `access_token`) after logging in, then:
+
 ```bash
-curl -X POST http://localhost:5039/api/app \
+curl -X POST http://localhost:5039/api/apps \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -111,3 +117,5 @@ curl -X POST http://localhost:5039/api/app \
     "routePrefix": "remote-app"
   }'
 ```
+
+Navigate to `http://localhost:4200/remote-app` to see the dynamically loaded MFE.
