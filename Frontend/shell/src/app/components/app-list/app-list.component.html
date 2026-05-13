@@ -1,0 +1,22 @@
+<div>
+    <h2>Registered Apps</h2>
+    @if (apps.length === 0) {
+        <p>No apps registered yet.</p>
+    } @else {
+        <div>
+            <ul>
+                <li *ngFor="let app of apps">
+                    <strong>{{ app.displayName }}</strong>
+                    <button (click)="open(app)">Open</button>
+                    <button (click)="delete(app.id)">Delete</button>
+                </li>
+            </ul>
+        </div>
+    }
+</div>
+<div>
+    <a routerLink="/register">+ Register New App</a>
+</div>
+<div>
+    <button (click)="logout()">Logout</button>
+</div>

@@ -1,0 +1,11 @@
+<h2>Register App</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div><input formControlName="name" placeholder="Name (e.g. remoteApp)" /></div>
+  <div><input formControlName="displayName" placeholder="Display Name" /></div>
+  <div><input formControlName="remoteUrl" placeholder="Remote Entry URL (e.g. http://localhost:4201/remoteEntry.json)" /></div>
+  <div><input formControlName="exposedModule" placeholder="Exposed Module (e.g. ./Module)" /></div>
+  <div><input formControlName="ngModuleName" placeholder="NgModule export name (e.g. RemoteModule)" /></div>
+  <div><input formControlName="routePrefix" placeholder="Route prefix (e.g. remote-app)" /></div>
+  <button type="submit" [disabled]="form.invalid">Register</button>
+</form>
+<a routerLink="/apps">Back</a>

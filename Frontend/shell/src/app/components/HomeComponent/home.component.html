@@ -1,0 +1,8 @@
+<div>
+    <h1>MFE Platform</h1>
+</div>
+<div>
+    @if (!(auth.isAuthenticated$ | async)) {
+        <button (click)="login()">Login</button>
+    }
+</div>
