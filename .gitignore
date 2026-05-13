@@ -1,0 +1,36 @@
+# ─── .NET ───────────────────────────────────────────
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.db
+*.db-shm
+*.db-wal
+
+# ─── Angular ────────────────────────────────────────
+node_modules/
+dist/
+out-tsc/
+.angular/
+
+# ─── Environment / Secrets ──────────────────────────
+.env
+*.env.local
+**/appsettings.*.json
+!**/appsettings.json
+!**/appsettings.Development.json
+
+# ─── IDE ────────────────────────────────────────────
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sw?
+
+# ─── Misc ───────────────────────────────────────────
+npm-debug.log
+yarn-error.log
+*.js.map
