@@ -1,7 +1,6 @@
-import { platformBrowser } from '@angular/platform-browser';
-import { AppModule } from './app/app-module';
+import { initFederation } from "@angular-architects/native-federation";
 
-platformBrowser().bootstrapModule(AppModule, {
-  
-})
-  .catch(err => console.error(err));
+initFederation({})
+    .catch((err) => console.log(err))
+    .then((_) => import('./bootstrap'))
+    .catch((err) => console.log(err));

@@ -1,6 +1,6 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {AuthModule, authHttpInterceptorFn} from '@auth0/auth0-angular'
+import {AuthHttpInterceptor, AuthModule, authHttpInterceptorFn} from '@auth0/auth0-angular'
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -36,7 +36,8 @@ import { HomeComponent } from './components/HomeComponent/home.component';
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withInterceptors([authHttpInterceptorFn]))
+    provideHttpClient(withInterceptors([authHttpInterceptorFn])),
+    AuthHttpInterceptor,
   ],
   bootstrap: [App]
 })

@@ -5,11 +5,13 @@
     } @else {
         <div>
             <ul>
-                <li *ngFor="let app of apps">
-                    <strong>{{ app.displayName }}</strong>
-                    <button (click)="open(app)">Open</button>
-                    <button (click)="delete(app.id)">Delete</button>
-                </li>
+                @for (app of apps; track app.id) {
+                    <li>
+                        <strong>{{ app.displayName }}</strong>
+                        <button (click)="open(app)">Open</button>
+                        <button (click)="delete(app.id)">Delete</button>
+                    </li>
+                }
             </ul>
         </div>
     }

@@ -24,33 +24,38 @@
       "prefix": "app",
       "architect": {
         "build": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {},
+          "configurations": {
+            "production": { "target": "remote-app:esbuild:production" },
+            "development": { "target": "remote-app:esbuild:development", "dev": true }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {
+            "target": "remote-app:serve-original:development",
+            "rebuildDelay": 500,
+            "dev": true,
+            "cacheExternalArtifacts": false,
+            "port": 0
+          }
+        },
+        "esbuild": {
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.css"
-            ]
+            "assets": [{ "glob": "**/*", "input": "public" }],
+            "styles": ["src/styles.css"],
+            "polyfills": ["es-module-shims"]
           },
           "configurations": {
             "production": {
               "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
+                { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
+                { "type": "anyComponentStyle", "maximumWarning": "4kB", "maximumError": "8kB" }
               ],
               "outputHashing": "all"
             },
@@ -62,21 +67,16 @@
           },
           "defaultConfiguration": "production"
         },
-        "serve": {
+        "serve-original": {
           "builder": "@angular/build:dev-server",
           "configurations": {
-            "production": {
-              "buildTarget": "remote-app:build:production"
-            },
-            "development": {
-              "buildTarget": "remote-app:build:development"
-            }
+            "production": { "buildTarget": "remote-app:esbuild:production" },
+            "development": { "buildTarget": "remote-app:esbuild:development" }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": { "port": 4201 }
         },
-        "test": {
-          "builder": "@angular/build:unit-test"
-        }
+        "test": { "builder": "@angular/build:unit-test" }
       }
     }
   }

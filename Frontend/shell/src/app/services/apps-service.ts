@@ -5,7 +5,7 @@ import { RegisteredApp } from "../models/registered-app";
 
 @Injectable({providedIn: 'root'})
 export class AppsService {
-    private readonly base = 'http://localhost:5039/api/app';
+    private readonly base = 'http://localhost:5039/api/apps';
     
     constructor(private http: HttpClient) {}
     

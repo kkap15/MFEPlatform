@@ -11,12 +11,14 @@
   "private": true,
   "packageManager": "npm@10.9.7",
   "dependencies": {
+    "@angular-architects/native-federation": "^21.2.3",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
+    "es-module-shims": "^2.8.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, inject, NgZone, OnInit } from "@angular/core";
 import { RegisteredApp } from "../../models/registered-app";
 import { AppsService } from "../../services/apps-service";
 import { Router } from "@angular/router";
@@ -15,7 +15,7 @@ export class AppListComponent implements OnInit {
     apps: RegisteredApp[] = [];
     private authService = inject(AuthService);
     
-    constructor(private appService: AppsService, private router: Router) {}
+    constructor(private appService: AppsService, private router: Router, private cdr: ChangeDetectorRef, private ngZone: NgZone) {}
     
     ngOnInit(): void {
         this.appService.getAll()
@@ -24,7 +24,12 @@ export class AppListComponent implements OnInit {
                     console.log(err);
                     return of([])
                 }))
-            .subscribe(app => this.apps = app);
+            .subscribe(apps => {
+                console.log('apps recieved', apps)
+                this.apps = apps;
+                this.cdr.detectChanges();
+                this.wireMfeRoutes(apps);
+            });
     }
     
     delete(id: string) {
@@ -33,7 +38,12 @@ export class AppListComponent implements OnInit {
                 console.log(err);
                 return of([]);
             }))
-            .subscribe(() => this.apps = this.apps.filter(a => a.id !== id));
+            .subscribe(() => {
+                this.ngZone.run(() => {
+                    this.apps = this.apps.filter(a => a.id !== id);
+                    this.cdr.detectChanges();
+                });
+            });
     }
     
     open(app: RegisteredApp) {
